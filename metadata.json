@@ -1,0 +1,6 @@
+{
+  "name": "DocVerse",
+  "description": "All-in-one PDF & document web application to merge, split, compress, convert, rotate, protect, watermark, reorder, and edit PDFs fast and securely.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

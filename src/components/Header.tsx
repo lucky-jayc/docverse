@@ -32,7 +32,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onSelectTool }) => {
   const { theme, setTheme, effectiveTheme } = useTheme();
-  const { user, isAuthenticated, setAuthModalOpen, setUpgradeModalOpen, logout } = useAuth();
+  const { user, isAuthenticated, openAuthModal, setUpgradeModalOpen, logout } = useAuth();
   
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
@@ -285,13 +285,13 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onSelec
           ) : (
             <div className="flex items-center space-x-2">
               <button
-                onClick={() => setAuthModalOpen(true)}
+                onClick={() => openAuthModal('login')}
                 className="text-sm font-semibold text-gray-700 dark:text-gray-200 hover:text-emerald-600 dark:hover:text-emerald-400 px-3 py-2 rounded-xl transition-colors"
               >
                 Log In
               </button>
               <button
-                onClick={() => setAuthModalOpen(true)}
+                onClick={() => openAuthModal('signup')}
                 className="text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-xl shadow-md shadow-emerald-600/20 transition-colors"
               >
                 Sign Up
@@ -355,13 +355,13 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onSelec
           {!isAuthenticated && (
             <div className="pt-3 flex flex-col gap-2">
               <button
-                onClick={() => { setAuthModalOpen(true); setMobileMenuOpen(false); }}
+                onClick={() => { openAuthModal('login'); setMobileMenuOpen(false); }}
                 className="w-full py-2.5 text-center font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 rounded-xl"
               >
                 Log In
               </button>
               <button
-                onClick={() => { setAuthModalOpen(true); setMobileMenuOpen(false); }}
+                onClick={() => { openAuthModal('signup'); setMobileMenuOpen(false); }}
                 className="w-full py-2.5 text-center font-semibold text-white bg-emerald-600 rounded-xl"
               >
                 Sign Up

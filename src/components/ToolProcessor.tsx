@@ -23,6 +23,9 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { TOOLS_DATA } from '../data/toolsData';
+import { TOOL_SEO_DATA } from '../data/seoData';
+import { RelatedTools } from './RelatedTools';
+import { ToolFaqSection } from './ToolFaqSection';
 import { CompressOptions, ImageToPdfOptions, ToolId, WatermarkOptions } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { 
@@ -42,6 +45,7 @@ import {
 interface ToolProcessorProps {
   toolId: ToolId;
   onBackToGrid: () => void;
+  onSelectTool?: (toolId: ToolId) => void;
 }
 
 interface LoadedPageThumbnail {
@@ -50,9 +54,10 @@ interface LoadedPageThumbnail {
   rotation: number;
 }
 
-export const ToolProcessor: React.FC<ToolProcessorProps> = ({ toolId, onBackToGrid }) => {
+export const ToolProcessor: React.FC<ToolProcessorProps> = ({ toolId, onBackToGrid, onSelectTool }) => {
   const { logActivity, setUpgradeModalOpen } = useAuth();
   const toolMeta = TOOLS_DATA.find((t) => t.id === toolId) || TOOLS_DATA[0];
+  const toolSeo = TOOL_SEO_DATA[toolId];
 
   // Uploaded Files state
   const [files, setFiles] = useState<File[]>([]);
@@ -428,13 +433,27 @@ export const ToolProcessor: React.FC<ToolProcessorProps> = ({ toolId, onBackToGr
       </div>
 
       {/* Tool Title Block */}
-      <div className="text-center mb-10">
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white">
-          {toolMeta.name}
+      <div className="text-center mb-10 max-w-3xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+          {toolSeo?.h1 || toolMeta.name}
         </h1>
-        <p className="mt-2 text-base text-gray-600 dark:text-gray-300 max-w-xl mx-auto">
-          {toolMeta.shortDesc}
-        </p>
+        <h2 className="mt-3 text-base sm:text-lg font-medium text-gray-600 dark:text-gray-300">
+          {toolSeo?.h2 || toolMeta.shortDesc}
+        </h2>
+
+        {toolSeo?.features && toolSeo.features.length > 0 && (
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+            {toolSeo.features.map((feat, idx) => (
+              <span
+                key={idx}
+                className="inline-flex items-center space-x-1 text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-gray-700 dark:text-gray-300 border border-gray-200/80 dark:border-slate-700"
+              >
+                <Check className="w-3 h-3 text-emerald-500" />
+                <span>{feat}</span>
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Error Banner */}
@@ -917,6 +936,14 @@ export const ToolProcessor: React.FC<ToolProcessorProps> = ({ toolId, onBackToGr
           )}
         </div>
       )}
+
+      {/* Related Tools Internal Linking */}
+      {onSelectTool && (
+        <RelatedTools currentToolId={toolId} onSelectTool={onSelectTool} />
+      )}
+
+      {/* Tool FAQ Accordion Section */}
+      <ToolFaqSection toolId={toolId} />
 
     </div>
   );

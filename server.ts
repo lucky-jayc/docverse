@@ -18,6 +18,17 @@ async function startServer() {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
   });
 
+  // SEO Static Endpoints
+  app.get("/robots.txt", (req, res) => {
+    const robotsPath = path.join(process.cwd(), "public", "robots.txt");
+    res.type("text/plain").sendFile(robotsPath);
+  });
+
+  app.get("/sitemap.xml", (req, res) => {
+    const sitemapPath = path.join(process.cwd(), "public", "sitemap.xml");
+    res.type("application/xml").sendFile(sitemapPath);
+  });
+
   // Gemini AI OCR & Document Intelligence Endpoint
   app.post("/api/ocr", async (req, res) => {
     try {

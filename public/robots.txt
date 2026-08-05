@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin
+
+# Host and Sitemap
+Sitemap: https://docverse.app/sitemap.xml

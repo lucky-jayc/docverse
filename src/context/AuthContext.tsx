@@ -84,7 +84,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (saved) {
       try { return JSON.parse(saved); } catch (e) { /* ignore */ }
     }
-    return DEFAULT_USER;
+    return null;
   });
 
   const [activityLogs, setActivityLogs] = useState<ActivityLog[]>(() => {
